@@ -1,0 +1,72 @@
+#!/bin/bash
+
+## Basic test
+
+mvnbuild=1
+
+if [ $mvnbuild == 1 ]; then
+    mvn clean package
+fi
+
+mkdir -p examples/Corpus/diff
+mkdir -p examples/PartC/1/diff
+
+############################################# Part A - Basic CBC ##############################################
+
+keyfile="examples/key_example.txt"
+iv="examples/IV_example.txt"
+
+for file in examples/Corpus/*.txt; do
+    echo "**************** Basic CBC: $file ****************"
+    filename=$(basename "$file")
+    extension="${filename##*.}"
+    pathWithoutExt="${file%.*}"
+    filename="${filename%.*}"
+
+    java -jar target/cbc.jar Encryption "$file" $keyfile $iv
+    java -jar target/cbc.jar Decryption "${pathWithoutExt}_encrypted.${extension}" $keyfile $iv
+    diff "$file" "${pathWithoutExt}_encrypted_decrypted.${extension}" > "examples/Corpus/diff/${filename}_diff.${extension}"
+done
+
+############################################# Part B - Cipher Text Only Attack ################################
+
+for file in examples/Corpus/*_encrypted.txt; do
+    echo "**************** Cipher Text Attack: $file ****************"
+    filename=$(basename "$file")
+    extension="${filename##*.}"
+    pathWithoutExt="${file%.*}"
+    filename="${filename%.*}"
+
+    java -jar target/CipherTextAttack.jar Decryption "$file" $iv
+    diff "${pathWithoutExt}_encrypted_key.${extension}" $keyfile > "examples/Corpus/diff/key_${filename}_diff.${extension}"
+done
+
+############################################# Part C - Long CBC ###############################################
+
+keyfile="examples/PartC/1/myKey.txt"
+iv="examples/PartC/1/IV_longExample.txt"
+
+for file in "examples/PartC/1/The Wonderful Wizard of OZ.txt" "examples/PartC/1/Tolstoy.txt"; do
+    echo "**************** Long CBC: $file ****************"
+    filename=$(basename "$file")
+    extension="${filename##*.}"
+    pathWithoutExt="${file%.*}"
+    filename="${filename%.*}"
+
+    java -jar target/cbc_long.jar Encryption "$file" $keyfile $iv
+    java -jar target/cbc_long.jar Decryption "${pathWithoutExt}_encrypted.${extension}" $keyfile $iv
+    diff "$file" "${pathWithoutExt}_encrypted_decrypted.${extension}" > "examples/PartC/1/diff/${filename}_diff.${extension}"
+done
+
+
+############################################# Part C - Known Plain Text Attack ################################
+
+plainMsg="examples/PartC/2/plainMsg_example.txt"
+cipherMsg="examples/PartC/2/cipherMsg_example.txt"
+cipherText="examples/PartC/2/Tolstoy_cipher.txt"
+iv="examples/PartC/2/IV_longExample.txt"
+
+echo "**************** Known Plain Text Attack ****************"
+java -jar target/PlainTextAttack.jar $plainMsg $cipherMsg $cipherText $iv
+java -jar target/cbc_long.jar Decryption $cipherText "examples/PartC/2/Tolstoy_cipher_key.txt" $iv
+diff "examples/PartC/2/Tolstoy_cipher_decrypted.txt" "examples/PartC/2/Tolstoy.txt" > examples/PartC/2/diff.txt
