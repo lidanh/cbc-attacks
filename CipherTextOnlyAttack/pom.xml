@@ -37,9 +37,6 @@
                         <manifest>
                             <mainClass>com.compnetsec.CipherTextAttackMain</mainClass>
                         </manifest>
-                        <manifestEntries>
-                            <Class-Path>.</Class-Path> <!-- HERE IS THE IMPORTANT BIT -->
-                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>

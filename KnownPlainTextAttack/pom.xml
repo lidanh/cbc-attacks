@@ -42,7 +42,6 @@
                     <archive>
                         <manifest>
                             <mainClass>com.compnetsec.PlainTextAttackMain</mainClass>
-                            <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
                 </configuration>
