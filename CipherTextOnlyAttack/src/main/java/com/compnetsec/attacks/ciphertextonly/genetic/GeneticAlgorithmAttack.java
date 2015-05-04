@@ -58,7 +58,7 @@ public class GeneticAlgorithmAttack implements CipherTextOnlyAttack {
         final int populationSize = 16;
 
         // The maximum number of generations
-        final int maxGenerations = 128;
+        final int maxGenerations = 256;
 
         // The portion of the population that will be retained
         // without change between evolutions
