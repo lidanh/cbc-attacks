@@ -12,7 +12,6 @@
         <module>CBC</module>
         <module>CipherTextOnlyAttack</module>
         <module>KnownPlainTextAttack</module>
-        <module>CBCLong</module>
     </modules>
 
     <properties>
