@@ -9,7 +9,7 @@ This project was an assignment in security course, Ben Gurion University, Spring
 
 ## What's inside?
 1. *CBC cipher* with substitution key (long and short but actually there is no difference except the key range and the block size- just because we required to seperate them to different JARs).
-2. *Cipher Text Only Attack*- by the obvious way of brute force, **but also by genetic algorithm** which improves the key until it found. this one is for relatively small keys.
+2. *Cipher Text Only Attack*- by the obvious way of brute force, **but also by genetic algorithm** which improves the key until it found. this one is for relatively small keys.  [More info about the implementation](https://speakerdeck.com/lidanh/how-did-nature-inspire-me-to-solve-the-ciphertext-only-attack).
 3. *Known Plain Text Attack*- which uses the algorithm implemented in task #2 (cipher text only attack) in order to crack larger keys.
 
 ## How to build?
